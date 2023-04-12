@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.example.stopmindlessscrolling.views.HomeActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/configure_apps"
+        android:textColor="@color/settings_txt_bg"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/configureAppsTxt"
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/text_settings" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/viewone"
+        android:layout_marginLeft="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
+        android:layout_below="@+id/configureAppsTxt"
+        android:background="@color/settings_txt_bg"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_time_limit"
+        android:textColor="@color/settings_txt_bg"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/viewone"
+        android:id="@+id/appTimeLimitTxt"
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/text_settings" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/viewtwo"
+        android:layout_marginLeft="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
+        android:layout_below="@+id/appTimeLimitTxt"
+        android:background="@color/settings_txt_bg"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quizz"
+        android:textColor="@color/settings_txt_bg"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/viewtwo"
+        android:id="@+id/quizzTxt"
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/text_settings" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:id="@+id/viewthree"
+        android:layout_marginLeft="@dimen/view_margin"
+        android:layout_marginRight="@dimen/view_margin"
+        android:layout_below="@+id/quizzTxt"
+        android:background="@color/settings_txt_bg"/>
+
+</RelativeLayout>

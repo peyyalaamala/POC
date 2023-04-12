@@ -8,4 +8,10 @@
     <string name="display_over_apps">You are using Android Version 5.0 and above.
             Please add StopMindlessScrolling to Apps with Display Over Other Apps in Device Settings. \n\n Thank you</string>
     <string name="displayoverapps">Display Over Other Apps Permission</string>
+    <string name="tab1">Overview</string>
+    <string name="tab2">Settings</string>
+    <string name="configure_apps">Configure Apps</string>
+    <string name="app_time_limit">App Time Limit</string>
+    <string name="quizz">Quizz</string>
+    <string name="todo">TODO</string>
 </resources>

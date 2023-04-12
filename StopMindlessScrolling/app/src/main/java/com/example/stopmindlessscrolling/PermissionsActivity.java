@@ -1,5 +1,6 @@
 package com.example.stopmindlessscrolling;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -17,6 +18,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.example.stopmindlessscrolling.utility.Utility;
+import com.example.stopmindlessscrolling.views.HomeActivity;
 
 public class PermissionsActivity extends AppCompatActivity {
 
@@ -41,6 +43,8 @@ public class PermissionsActivity extends AppCompatActivity {
                 }
                 homePermission();
             } else {
+                Intent intent=new Intent(PermissionsActivity.this, HomeActivity.class);
+                startActivity(intent);
 
             }
         }
@@ -91,9 +95,9 @@ public class PermissionsActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void displayoverotherApps(){
         if (!Settings.canDrawOverlays(PermissionsActivity.this)) {
-
             displayoverotherappsdialog();
         }
     }
@@ -140,6 +144,7 @@ public class PermissionsActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onResume() {
         super.onResume();
