@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/GitHub/POC/StopMindlessScrolling/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1585" />
         <entry key="..\:/GitHub/POC/StopMindlessScrolling/app/src/main/res/drawable/rounded_cornor_alert_popup.xml" value="0.156" />
         <entry key="..\:/GitHub/POC/StopMindlessScrolling/app/src/main/res/layout/activity_main.xml" value="0.23697916666666666" />
+        <entry key="..\:/GitHub/POC/StopMindlessScrolling/app/src/main/res/layout/custom_notify.xml" value="0.14895833333333333" />
         <entry key="..\:/GitHub/POC/StopMindlessScrolling/app/src/main/res/layout/usage_access_permission_popup.xml" value="0.2441123188405797" />
       </map>
     </option>
