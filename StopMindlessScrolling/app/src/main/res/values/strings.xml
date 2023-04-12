@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">StopMindlessScrolling</string>
+    <string name="usageAccess">Usage Access Permission</string>
+    <string name="accept_permission_string">Accept Permission</string>
+    <string name="ok">Okay</string>
+    <string name="usage_stats_hint">You are using Android Version 5.0 and above.
+            Please add StopMindlessScrolling to Apps with Usage Access in Settings / Security. \n\n Thank you</string>
 </resources>

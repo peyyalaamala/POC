@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.stopmindlessscrolling">
-
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" /> <!-- To restrict recent apps access -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,8 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StopMindlessScrolling"
         tools:targetApi="31">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".PermissionsActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
