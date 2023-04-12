@@ -4,5 +4,8 @@
     <string name="accept_permission_string">Accept Permission</string>
     <string name="ok">Okay</string>
     <string name="usage_stats_hint">You are using Android Version 5.0 and above.
-            Please add StopMindlessScrolling to Apps with Usage Access in Settings / Security. \n\n Thank you</string>
+            Please add StopMindlessScrolling to Apps with Usage Access in Device Settings. \n\n Thank you</string>
+    <string name="display_over_apps">You are using Android Version 5.0 and above.
+            Please add StopMindlessScrolling to Apps with Display Over Other Apps in Device Settings. \n\n Thank you</string>
+    <string name="displayoverapps">Display Over Other Apps Permission</string>
 </resources>
