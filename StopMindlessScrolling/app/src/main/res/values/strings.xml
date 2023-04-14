@@ -14,4 +14,6 @@
     <string name="app_time_limit">App Time Limit</string>
     <string name="quizz">Quizz</string>
     <string name="todo">TODO</string>
+    <string name="select_app_timer_limit">Select App Timer Limit in Min</string>
+    <string name="select_question">Select Question</string>
 </resources>

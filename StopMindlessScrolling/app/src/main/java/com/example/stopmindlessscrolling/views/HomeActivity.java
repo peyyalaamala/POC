@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.stopmindlessscrolling.R;
 import com.example.stopmindlessscrolling.fragments.OverViewFragment;
 import com.example.stopmindlessscrolling.fragments.SettingsFragment;
+import com.example.stopmindlessscrolling.utility.AppConstants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class HomeActivity extends AppCompatActivity {
     SettingsFragment settingsFragment;
     MenuItem prevMenuItem;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,10 @@ public class HomeActivity extends AppCompatActivity {
 
         //Initializing viewPager
         viewPager = findViewById(R.id.viewpager);
+
+        sharedPreferences= getSharedPreferences(AppConstants.SHAREDPREF, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
 
         //Initializing the bottomNavigationView
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -90,7 +97,21 @@ public class HomeActivity extends AppCompatActivity {
         });
         setupViewPager(viewPager);
 
-        installedApps();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+
+            installedApps();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -124,8 +145,11 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("MutatingSharedPrefs")
     public void installedApps()
     {
+
+        Log.e("TAG", "installedApps:  Called" );
         List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
 
         Set<String> installedAppSet=new HashSet<>();
@@ -145,12 +169,34 @@ public class HomeActivity extends AppCompatActivity {
         }
 
 
-        SharedPreferences prefs = getSharedPreferences("prefs", 0);
-        SharedPreferences.Editor editor = prefs.edit();
+        Set<String> totalInstallApps=sharedPreferences.getStringSet(AppConstants.TOTALINSTALLAPPS,new HashSet<>());
+        Set<String> selectedApps=sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>());
+        Set<String> unselectedApps=sharedPreferences.getStringSet(AppConstants.UNSELECTEDAPPS,new HashSet<>());
 
-        editor.putStringSet("installedApps",installedAppSet);
-        editor.apply();
+        if (totalInstallApps.size()==0){
+            Set<String> stringSet=new HashSet<>();
+            editor.putStringSet(AppConstants.TOTALINSTALLAPPS,stringSet);
+            editor.putStringSet(AppConstants.TOTALINSTALLAPPS,installedAppSet);
+            editor.putStringSet(AppConstants.UNSELECTEDAPPS,installedAppSet);
+            editor.putStringSet(AppConstants.SELECTEDAPPS,stringSet);
+            editor.apply();
+            Log.e("TAG", "all instlled apps inserted: " );
 
+        }else if ((selectedApps.size()+unselectedApps.size())<totalInstallApps.size()){
+
+            Set<String> stringSet=new HashSet<>();
+            editor.putStringSet(AppConstants.TOTALINSTALLAPPS,stringSet);
+            editor.putStringSet(AppConstants.TOTALINSTALLAPPS,installedAppSet);
+            for (String packageName : totalInstallApps) {
+                if (!unselectedApps.contains(packageName)){
+                    unselectedApps.add(packageName);
+                }
+            }
+            editor.putStringSet(AppConstants.UNSELECTEDAPPS,unselectedApps);
+
+            Log.e("TAG", "new  instlled apps inserted: " );
+
+        }
 
 
     }
