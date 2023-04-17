@@ -1,5 +1,6 @@
 package com.example.stopmindlessscrolling.service;
-import com.example.stopmindlessscrolling.R;
+
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -7,40 +8,54 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStatsManager;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
-import android.provider.Settings;
-import android.view.InflateException;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
+import com.example.stopmindlessscrolling.R;
+import com.example.stopmindlessscrolling.utility.AppConstants;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MonitorService extends Service {
+
+    public static final String ACTION_START_FOREGROUND_SERVICE = "Start";
+    private LinearLayout mLinear;
+    private LayoutInflater inflater;
+    private WindowManager.LayoutParams mParams;
+    private Handler handler = new Handler();
+    private View mView;
+    private WindowManager mWindowManager;
     IBinder mBinder = new LocalBinder();
     private Context mContext;
+    public Boolean isShown=false;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    public static final int notify = 1000;  //interval between two services(Here Service run every 5 seconds)
+    int count = 0;  //number of times service is display
+    private Handler mHandler = new Handler();   //run on another Thread to avoid crash
+    private Timer mTimer = null;    //timer handling
     @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
@@ -52,12 +67,54 @@ public class MonitorService extends Service {
             return MonitorService.this;
         }
     }
+    //class TimeDisplay for handling task
+    class TimeDisplay extends TimerTask {
+        @Override
+        public void run() {
+            // run on another thread
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    // display toast
+                    Log.e("TAG", "Service is running: " );
+                    try {
+                        Set<String> selectedAppsSet=sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>());
 
+                        Log.e("TAG", "ToppackageName: ~~~~~~" +getProcess());
+                        Log.e("TAG", "isShown: ~~~~~~" +isShown);
+                        Log.e("TAG", "selectedAppsSet: ~~~~~~" +selectedAppsSet.contains(getProcess()));
+
+
+                        if (getProcess()!=null &&
+                                selectedAppsSet.contains(getProcess())){
+                            if (!isShown){
+                                editor.putString(AppConstants.VIEWSHOWEDAPP,getProcess());
+                                editor.apply();
+                                showPopUp();
+                            }
+
+                        }
+
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+
+        }
+
+    }
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
-
+        sharedPreferences= getSharedPreferences(AppConstants.SHAREDPREF, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        if (mTimer != null) // Cancel if already existed
+            mTimer.cancel();
+        else
+            mTimer = new Timer();   //recreate new
+        mTimer.scheduleAtFixedRate(new TimeDisplay(), 0, notify);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startMyOwnForeground();
         }
@@ -66,7 +123,8 @@ public class MonitorService extends Service {
         } else {
             startService(new Intent(mContext, MonitorService.class));
         }
-        
+
+
     }
 
     @Override
@@ -106,6 +164,7 @@ public class MonitorService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
+        removeview();
     }
 
     @Override
@@ -145,11 +204,12 @@ public class MonitorService extends Service {
      *
      * @return
      */
+    @SuppressLint({"ObsoleteSdkInt", "InlinedApi"})
     private String getProcessNew() {
         String topPackageName = null;
         UsageStatsManager mUsageStatsManager = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            mUsageStatsManager = (UsageStatsManager) getSystemService("usagestats");
+            mUsageStatsManager = (UsageStatsManager) getSystemService(Context.USAGE_STATS_SERVICE);
             try {
                 long currentTimeMillis = System.currentTimeMillis();
                 UsageEvents queryEvents = mUsageStatsManager.queryEvents(currentTimeMillis - 1000 * 10, currentTimeMillis);
@@ -169,7 +229,71 @@ public class MonitorService extends Service {
     }
 
 
+    private void showPopUp() {
 
+
+        mLinear = new LinearLayout(getApplicationContext());
+        mView = new LinearLayout(getApplicationContext());
+        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        mView = inflater.inflate(R.layout.windowmanager_view, mLinear);
+        Button button=mView.findViewById(R.id.button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeview();
+            }
+        });
+
+        int LAYOUT_FLAG;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            LAYOUT_FLAG =  WindowManager.LayoutParams.TYPE_PHONE;
+            ;
+        }
+        try {
+            mParams = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, 10, 200,
+                    LAYOUT_FLAG,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+                            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
+                            WindowManager.LayoutParams.FLAG_SPLIT_TOUCH |
+                            WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
+                    PixelFormat.TRANSLUCENT);
+
+
+            mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+            if (mWindowManager != null && !mView.isShown()) {
+                Log.e("addView", "~~~~~~~~~~: ");
+                mWindowManager.addView(mView, mParams);
+                isShown=true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void removeview() {
+        try {
+            Log.e("~~~~~", "removeview: ");
+            Log.e("~~~~~", "removeview: "+mView.isShown());
+
+            if (mWindowManager != null && mView != null) {
+
+                mWindowManager.removeView(mView);
+                mWindowManager = null;
+                mView = null;
+                isShown=false;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

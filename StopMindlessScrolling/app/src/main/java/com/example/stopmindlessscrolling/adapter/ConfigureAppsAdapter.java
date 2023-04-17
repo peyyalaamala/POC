@@ -72,45 +72,46 @@ public class ConfigureAppsAdapter extends RecyclerView.Adapter<ConfigureAppsAdap
         try
         {
             icon = context.getPackageManager().getApplicationIcon(appInfo.packageName);
+            holder.appIcon.setImageDrawable(icon);
+            holder.appNameTxt.setText(getApplicationName(context, appInfo.getPackageName()));
+            holder.appcheckBox.setChecked(appInfo.getSelected());
+
+            holder.appcheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                Set<String> selectedApps=sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>());
+                Set<String> unselectedApps=sharedPreferences.getStringSet(AppConstants.UNSELECTEDAPPS,new HashSet<>());
+
+                if (isChecked){
+                    if (unselectedApps.contains(appInfo.packageName)){
+                        unselectedApps.remove(appInfo.packageName);
+                        selectedApps.add(appInfo.packageName);
+                        editor.putStringSet(AppConstants.SELECTEDAPPS,selectedApps);
+                        editor.putStringSet(AppConstants.UNSELECTEDAPPS,unselectedApps);
+                        editor.apply();
+                    }
+
+
+                }else {
+                    if (selectedApps.contains(appInfo.packageName)){
+                        selectedApps.remove(appInfo.packageName);
+                        unselectedApps.add(appInfo.packageName);
+                        editor.putStringSet(AppConstants.SELECTEDAPPS,selectedApps);
+                        editor.putStringSet(AppConstants.UNSELECTEDAPPS,unselectedApps);
+                        editor.apply();
+                    }
+                }
+
+                editor.putInt(AppConstants.TEST, selectedApps.size());
+                editor.apply();
+
+                Log.e("TAG", "SELECTEDAPPS: "+ sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>()));
+                Log.e("TAG", "UNSELECTEDAPPS: "+ sharedPreferences.getStringSet(AppConstants.UNSELECTEDAPPS,new HashSet<>()));
+            });
+
         }
         catch (PackageManager.NameNotFoundException e)
         {
             e.printStackTrace();
         }
-        holder.appIcon.setImageDrawable(icon);
-        holder.appNameTxt.setText(getApplicationName(context, appInfo.getPackageName()));
-        holder.appcheckBox.setChecked(appInfo.getSelected());
-
-        holder.appcheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            Set<String> selectedApps=sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>());
-            Set<String> unselectedApps=sharedPreferences.getStringSet(AppConstants.UNSELECTEDAPPS,new HashSet<>());
-
-            if (isChecked){
-                if (unselectedApps.contains(appInfo.packageName)){
-                    unselectedApps.remove(appInfo.packageName);
-                    selectedApps.add(appInfo.packageName);
-                    editor.putStringSet(AppConstants.SELECTEDAPPS,selectedApps);
-                    editor.putStringSet(AppConstants.UNSELECTEDAPPS,unselectedApps);
-                    editor.apply();
-                }
-
-
-            }else {
-                if (selectedApps.contains(appInfo.packageName)){
-                    selectedApps.remove(appInfo.packageName);
-                    unselectedApps.add(appInfo.packageName);
-                    editor.putStringSet(AppConstants.SELECTEDAPPS,selectedApps);
-                    editor.putStringSet(AppConstants.UNSELECTEDAPPS,unselectedApps);
-                    editor.apply();
-                }
-            }
-
-            editor.putInt(AppConstants.TEST, selectedApps.size());
-            editor.apply();
-
-            Log.e("TAG", "SELECTEDAPPS: "+ sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>()));
-            Log.e("TAG", "UNSELECTEDAPPS: "+ sharedPreferences.getStringSet(AppConstants.UNSELECTEDAPPS,new HashSet<>()));
-        });
 
 
     }

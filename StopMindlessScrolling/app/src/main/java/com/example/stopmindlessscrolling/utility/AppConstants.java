@@ -10,4 +10,5 @@ public class AppConstants {
         public static final String QUIZID = "quizId";
     public static final String APPTIMELIMITVALUE = "appTimeLimitValue";
     public static final String QUIZQUESTION = "quizQuestion";
+    public static final String VIEWSHOWEDAPP = "viewShowedApp";
 }

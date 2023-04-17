@@ -1,5 +1,8 @@
 package com.example.stopmindlessscrolling.utility;
 
+import static android.content.Context.ACTIVITY_SERVICE;
+
+import android.app.ActivityManager;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
@@ -35,5 +38,16 @@ public class Utility {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private static UsageStatsManager getUsageStatsManager(Context context) {
         return (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+    }
+
+
+    public static boolean isServiceRunning(Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)){
+            if("com.example.stopmindlessscrolling.service.MonitorService".equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

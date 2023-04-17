@@ -1,6 +1,7 @@
 package com.example.stopmindlessscrolling.views;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -17,7 +18,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.stopmindlessscrolling.R;
 import com.example.stopmindlessscrolling.fragments.OverViewFragment;
 import com.example.stopmindlessscrolling.fragments.SettingsFragment;
+import com.example.stopmindlessscrolling.service.MonitorService;
 import com.example.stopmindlessscrolling.utility.AppConstants;
+import com.example.stopmindlessscrolling.utility.Utility;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -106,6 +109,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onResume();
         try {
 
+            Log.e("TAG", "isServiceRunning: "+Utility.isServiceRunning(this) );
+
+           if (!Utility.isServiceRunning(this)){
+               startService(new Intent(HomeActivity.this,MonitorService.class));
+           }
             installedApps();
 
         }catch (Exception e){
