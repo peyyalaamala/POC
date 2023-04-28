@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.example.stopmindlessscrolling.R;
 public class ResultActivity extends AppCompatActivity {
     TextView tv, tv2, tv3;
-    Button btnRestart;
+    Button btnRestart,btnBacktoHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,7 @@ public class ResultActivity extends AppCompatActivity {
         tv2 = (TextView)findViewById(R.id.tvres2);
         tv3 = (TextView)findViewById(R.id.tvres3);
         btnRestart = (Button) findViewById(R.id.btnRestart);
+        btnBacktoHome = (Button) findViewById(R.id.btnBacktoHome);
 
         StringBuffer sb = new StringBuffer();
         sb.append("Correct answers: " + QuizActivity.correct + "\n");
@@ -38,6 +39,13 @@ public class ResultActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(getApplicationContext(),QuizActivity.class);
+                startActivity(in);
+            }
+        });
+        btnBacktoHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getApplicationContext(),HomeActivity.class);
                 startActivity(in);
             }
         });

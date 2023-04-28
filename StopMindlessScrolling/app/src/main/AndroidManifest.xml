@@ -26,7 +26,7 @@
             android:name=".views.PermissionsActivity"
             android:exported="false" />
         <activity
-            android:name=".views.SplashActivity"
+            android:name=".views.QuizActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +44,7 @@
             android:name=".views.ResultActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".views.QuizActivity"
+            android:name=".views.SplashActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <service android:name=".service.MonitorService" />
