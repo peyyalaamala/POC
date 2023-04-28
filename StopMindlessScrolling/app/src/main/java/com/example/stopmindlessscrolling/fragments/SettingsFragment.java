@@ -7,11 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.ImageFormat;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +15,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -30,8 +28,11 @@ import com.example.stopmindlessscrolling.R;
 import com.example.stopmindlessscrolling.utility.AppConstants;
 import com.example.stopmindlessscrolling.views.ConfigureAppsActivity;
 
+import java.util.HashSet;
+import java.util.Set;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener {
+
+public class SettingsFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -41,6 +42,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private Intent intent;
     private Dialog dialog;
     private RadioGroup radioGroup;
+    private Set<String> activities;
+    private CheckBox checkBox1;
+    private CheckBox checkBox2;
+    private CheckBox checkBox3;
+    private CheckBox checkBox4;
 
 
     public SettingsFragment() {
@@ -97,8 +103,33 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.quizz_popup);
             Button okBtn = (Button) dialog.findViewById(R.id.okBtn);
-            radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroup);
-            Log.e("TAG", "QUIZQUESTION: "+sharedPreferences.getString(AppConstants.QUIZQUESTION,"") );
+            checkBox1 = (CheckBox) dialog.findViewById(R.id.CheckBox1);
+            checkBox2 = (CheckBox) dialog.findViewById(R.id.CheckBox2);
+            checkBox3 = (CheckBox) dialog.findViewById(R.id.CheckBox3);
+            checkBox4 = (CheckBox) dialog.findViewById(R.id.CheckBox4);
+
+            Set<String> activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+
+            for (String activity:activities) {
+                if (activity.equalsIgnoreCase("Quiz")){
+                    checkBoxValidation(activity,checkBox1,"Quiz");
+                }else  if (activity.equalsIgnoreCase("Explore Motivational Quotes")){
+                    checkBoxValidation(activity,checkBox2,"Explore Motivational Quotes");
+                } if (activity.equalsIgnoreCase("Explore Articles")){
+                    checkBoxValidation(activity,checkBox3,"Explore Articles");
+                } if (activity.equalsIgnoreCase("Yoga")){
+                    checkBoxValidation(activity,checkBox4,"Yoga");
+                }
+
+
+            }
+            checkBox1.setOnCheckedChangeListener(this);
+            checkBox2.setOnCheckedChangeListener(this);
+            checkBox3.setOnCheckedChangeListener(this);
+            checkBox4.setOnCheckedChangeListener(this);
+
+
             Window window = dialog.getWindow();
             WindowManager.LayoutParams wlp = window.getAttributes();
 
@@ -108,42 +139,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
 
-            int radioButtonId=sharedPreferences.getInt(AppConstants.QUIZID,0);
-            if (radioButtonId!=0){
-                radioGroup.check(radioButtonId);
-            }
-            radioGroup.setOnCheckedChangeListener((group, selectedId) -> {
-                  RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
-                        editor.putInt(AppConstants.QUIZID,radioButton.getId());
-                        editor.putString(AppConstants.QUIZQUESTION,radioButton.getText().toString());
-                        editor.apply();
 
-                    }
-            );
 
             okBtn.setOnClickListener(v -> {
-                int selectedId = radioGroup.getCheckedRadioButtonId();
-                if (selectedId == -1) {
-                    Toast.makeText(requireContext(),
-                                    "No answer has been selected",
-                                    Toast.LENGTH_SHORT)
-                            .show();
-                }
-                else {
-
-                    RadioButton radioButton
-                            = (RadioButton)radioGroup
-                            .findViewById(selectedId);
-
-                    // Now display the value of selected item
-                    // by the Toast message
-
-                    editor.putInt(AppConstants.QUIZID,selectedId);
-                    editor.putString(AppConstants.QUIZQUESTION,radioButton.getText().toString());
-                    editor.apply();
-                    if (dialog.isShowing()) {
-                        dialog.dismiss();
-                    }
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
                 }
 
             });
@@ -156,6 +156,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
+    }
+
+    private void checkBoxValidation(String activity, CheckBox checkBox,String checkboxText) {
+        checkBox.setChecked(activity.equalsIgnoreCase(checkboxText));
     }
 
     /**
@@ -183,7 +187,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
             Button okBtn = (Button) dialog.findViewById(R.id.okBtn);
             radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroup);
-            Log.e("TAG", "APPTIMELIMITVALUE: "+sharedPreferences.getInt(AppConstants.APPTIMELIMITVALUE,0) );
 
             int radioButtonId=sharedPreferences.getInt(AppConstants.APPTIMELIMITID,0);
             if (radioButtonId!=0){
@@ -193,7 +196,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                         RadioButton radioButton = (RadioButton) dialog.findViewById(selectedId);
 
                         editor.putInt(AppConstants.APPTIMELIMITID,radioButton.getId());
-                        editor.putInt(AppConstants.APPTIMELIMITVALUE,Integer.parseInt(radioButton.getText().toString()));
+                        editor.putInt(AppConstants.APPTIMELIMITVALUE,Integer.parseInt(radioButton.getText().toString().replace(" Sec","")));
                         editor.apply();
 
                     }
@@ -220,7 +223,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                                     Toast.LENGTH_SHORT)
                             .show();
                     editor.putInt(AppConstants.APPTIMELIMITID,selectedId);
-                    editor.putInt(AppConstants.APPTIMELIMITVALUE,Integer.parseInt(radioButton.getText().toString()));
+                    editor.putInt(AppConstants.APPTIMELIMITVALUE,Integer.parseInt(radioButton.getText().toString().replace(" Sec","")));
                     editor.apply();
                     if (dialog.isShowing()) {
                         dialog.dismiss();
@@ -237,5 +240,83 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
+    }
+
+    @SuppressLint({"NonConstantResourceId", "MutatingSharedPrefs"})
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()){
+
+            case R.id.CheckBox1:
+
+
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+                if (isChecked){
+                    activities.add("Quiz");
+                    Toast.makeText(requireContext(),"Quiz Selected",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    activities.remove("Quiz");
+                    Toast.makeText(requireContext(),"Quiz Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+
+                break;
+            case R.id.CheckBox2:
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+                if (isChecked){
+                    activities.add("Explore Motivational Quotes");
+                    Toast.makeText(requireContext(),"Explore Motivational Quotes Selected",Toast.LENGTH_SHORT).show();
+                }else {
+                    activities.remove("Explore Motivational Quotes");
+                    Toast.makeText(requireContext(),"Explore Motivational Quotes Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+
+                break;
+            case R.id.CheckBox3:
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+
+                if (isChecked){
+                    activities.add("Explore Articles");
+                    Toast.makeText(requireContext(),"Explore Articles Selected",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    activities.remove("Explore Articles");
+                    Toast.makeText(requireContext(),"Explore Articles Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+
+                break;
+            case R.id.CheckBox4:
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+                if (isChecked){
+                    activities.add("Yoga");
+                    Toast.makeText(requireContext(),"Yoga Selected",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    activities.remove("Yoga");
+                    Toast.makeText(requireContext(),"Yoga Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+                break;
+
+        }
     }
 }

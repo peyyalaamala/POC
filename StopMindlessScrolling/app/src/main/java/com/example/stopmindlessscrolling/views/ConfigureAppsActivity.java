@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,10 +43,6 @@ public class ConfigureAppsActivity extends AppCompatActivity {
         Set<String> selectedApps=sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>());
         Set<String> unselectedApps=sharedPreferences.getStringSet(AppConstants.UNSELECTEDAPPS,new HashSet<>());
 
-        Log.e("TAG", "selectedApps:size "+selectedApps.size());
-        Log.e("TAG", "unselectedApps:size "+unselectedApps.size());
-        Log.e("TAG", "TEST:size "+sharedPreferences.getInt(AppConstants.TEST,0));
-
         for (String packageName:selectedApps) {
             AppInfo appInfo = new AppInfo();
             appInfo.setPackageName(packageName);
@@ -65,5 +62,7 @@ public class ConfigureAppsActivity extends AppCompatActivity {
         ConfigureAppsAdapter adapter = new ConfigureAppsAdapter(appInfoArrayList,this);
         recyclerView.setAdapter(adapter);
 
+
     }
+
 }

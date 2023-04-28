@@ -1,19 +1,44 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     android:layout_height="match_parent"
+    android:padding="@dimen/_10sdp"
     tools:context="com.example.stopmindlessscrolling.views.HomeActivity">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:textColor="@color/settings_txt_bg"
-        android:text="@string/tab1"
-        android:textSize="30sp" />
+        android:id="@+id/titleTxt"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:fontFamily="@font/opensans_regular"
+        android:text="Recent Apps from Mindless Scrolling"/>
 
-</RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/titleTxt"
+        android:fontFamily="@font/opensans_regular"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/white"
+        android:id="@+id/recyclerViewOverView"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/noAppsTxt"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/opensans_regular"
+        android:text="No Recent Apps from Mindless Scrolling."/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

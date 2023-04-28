@@ -104,6 +104,17 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+        Log.e("TAG", "onBackPressed: " );
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -166,7 +177,8 @@ public class HomeActivity extends AppCompatActivity {
         {
             PackageInfo packInfo = packList.get(i);
 
-            if (  (packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+            if ( !packInfo.applicationInfo.packageName.equalsIgnoreCase(getPackageName())
+                    &&(packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
             {
                 String packageName = packInfo.applicationInfo.packageName;
 

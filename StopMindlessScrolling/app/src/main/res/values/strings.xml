@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">StopMindlessScrolling</string>
     <string name="usageAccess">Usage Access Permission</string>
     <string name="accept_permission_string">Accept Permission</string>
@@ -10,11 +10,14 @@
     <string name="displayoverapps">Display Over Other Apps Permission</string>
     <string name="tab1">Overview</string>
     <string name="tab2">Settings</string>
-    <string name="configure_apps">Configure Apps</string>
-    <string name="app_time_limit">App Time Limit</string>
-    <string name="quizz">Quizz</string>
+    <string name="configure_apps">Select App(s)</string>
+    <string name="app_time_limit">Set Mindless Scrolling Time</string>
+    <string name="quizz">Activities</string>
     <string name="todo">TODO</string>
-    <string name="select_app_timer_limit">Select App Timer Limit in Min</string>
-    <string name="select_question">Select Question</string>
-    <string name="dismiss">Dismiss</string>
+    <string name="select_app_timer_limit">Set Mindless Scrolling Time</string>
+    <string name="select_question">Select Activity</string>
+    <string name="please_select_applications_you_want_to_configure_for_app_timer_limit">Select App(s) for Mindless Scrolling</string>
+    <string name="app_version">v1.0.1.1</string>
+    <string name="powered_by" >Powered by  </string>
+    <string name="btn_add_contact"><u>Add new contact</u></string>
 </resources>

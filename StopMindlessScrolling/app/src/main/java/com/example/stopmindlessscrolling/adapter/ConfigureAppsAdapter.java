@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,7 +49,11 @@ public class ConfigureAppsAdapter extends RecyclerView.Adapter<ConfigureAppsAdap
         }
     }
 
-
+    @Override
+    public void onViewRecycled(@NonNull MyViewHolder holder) {
+        holder.appcheckBox.setOnCheckedChangeListener(null);
+        super.onViewRecycled(holder);
+    }
     public ConfigureAppsAdapter(List<AppInfo> appsList, Context context) {
         this.appsList = appsList;
         this.context = context;
@@ -87,6 +92,7 @@ public class ConfigureAppsAdapter extends RecyclerView.Adapter<ConfigureAppsAdap
                         editor.putStringSet(AppConstants.SELECTEDAPPS,selectedApps);
                         editor.putStringSet(AppConstants.UNSELECTEDAPPS,unselectedApps);
                         editor.apply();
+                        Toast.makeText(context,getApplicationName(context, appInfo.packageName)+" Selected",Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -97,6 +103,8 @@ public class ConfigureAppsAdapter extends RecyclerView.Adapter<ConfigureAppsAdap
                         editor.putStringSet(AppConstants.SELECTEDAPPS,selectedApps);
                         editor.putStringSet(AppConstants.UNSELECTEDAPPS,unselectedApps);
                         editor.apply();
+                        Toast.makeText(context,getApplicationName(context, appInfo.packageName)+" Unselected",Toast.LENGTH_SHORT).show();
+
                     }
                 }
 
@@ -120,7 +128,7 @@ public class ConfigureAppsAdapter extends RecyclerView.Adapter<ConfigureAppsAdap
     public int getItemCount() {
         return appsList.size();
     }
-    public static String getApplicationName(Context context,String packageName) {
+    public  String getApplicationName(Context context,String packageName) {
         PackageManager packageManager = null;
         ApplicationInfo applicationInfo = null;
         try {

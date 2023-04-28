@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/rounded_cornors_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -11,54 +11,68 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_50sdp"
-        android:text="@string/select_question"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:text="Select the option to guide you on mindless scrolling"
+        android:fontFamily="@font/opensans_regular"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:id="@+id/titleTxt"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <RadioGroup
+    <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/radioGroup"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:padding="@dimen/_10sdp"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/_20sdp"
         app:layout_constraintTop_toBottomOf="@+id/titleTxt"
         android:layout_height="wrap_content">
-        <RadioButton
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radioButton1"
-            android:text="It's time to do YOGA"/>
-        <RadioButton
+            android:id="@+id/CheckBox1"
+            android:buttonTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/opensans_regular"
+            android:text="Quiz"/>
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radioButton2"
-            android:text="It's time to do Meditation "/>
-        <RadioButton
+            android:buttonTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/opensans_regular"
+            android:id="@+id/CheckBox2"
+            android:text="Explore Motivational Quotes"/>
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radioButton3"
-            android:text="It's time to do Site Visting"/>
-        <RadioButton
+            android:id="@+id/CheckBox3"
+            android:buttonTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/opensans_regular"
+            android:text="Explore Articles"/>
+        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radioButton4"
-            android:text="It's time to do Exercise"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/radioButton5"
-            android:text="It's time to do Walking"/>
-    </RadioGroup>
+            android:id="@+id/CheckBox4"
+            android:buttonTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/opensans_regular"
+            android:text="Yoga"/>
+  </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ok"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
         android:id="@+id/okBtn"
-        android:layout_marginBottom="@dimen/_50sdp"
+        android:fontFamily="@font/opensans_regular"
+        android:layout_marginBottom="@dimen/_30sdp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup"
         app:layout_constraintBottom_toBottomOf="parent"/>
