@@ -40,6 +40,12 @@
         <activity
             android:name=".views.ConfigureAppsActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".views.ResultActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".views.QuizActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <service android:name=".service.MonitorService" />
 
