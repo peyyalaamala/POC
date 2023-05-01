@@ -29,6 +29,7 @@
         android:textAllCaps="false"
         android:fontFamily="@font/opensans_regular"
         android:gravity="center"
+        android:visibility="gone"
         android:text="@string/dismissed_in"
         android:layout_marginEnd="@dimen/_5sdp"
         android:layout_marginTop="@dimen/_15sdp"
@@ -50,9 +51,9 @@
 
     <TextView
         android:id="@+id/appTitleTxt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_10sdp"
+        android:textSize="@dimen/_14sdp"
         android:textAllCaps="false"
         android:fontFamily="@font/opensans_regular"
         android:gravity="center"
@@ -101,12 +102,12 @@
         android:layout_height="@dimen/_40sdp"
         android:textAllCaps="false"
         android:textSize="@dimen/_12sdp"
-        android:textColor="@color/light_red"
+        android:backgroundTint="@color/red"
+        android:textColor="@color/white"
         android:fontFamily="@font/opensans_regular"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_margin="@dimen/_20sdp"
-        android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

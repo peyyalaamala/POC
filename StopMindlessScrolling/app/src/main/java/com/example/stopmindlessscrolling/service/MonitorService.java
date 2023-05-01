@@ -96,13 +96,9 @@ public class MonitorService extends Service  {
 
                 try {
                     Log.e("TAG", "topPackageName: ~~~~~~" +getProcess());
-//
                     if (sharedPreferences.getBoolean(AppConstants.MOREINFOOPENEDVALIDATION,false)){
                         removeview();
                     }
-
-
-
 
                     //Store top package name
                     String toppackageName=getProcess();
@@ -111,18 +107,6 @@ public class MonitorService extends Service  {
                         editor.apply();
                     }
 
-                    //For initiate timer for selected app
-//                    try {
-//                        Set<String> selectedAppsSet=sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>());
-//                        String topPackageName=sharedPreferences.getString(AppConstants.TOPPACKAGENAME,"");
-//                        if (selectedAppsSet.contains(topPackageName)){
-//                           timerStart=false;
-//                        }
-//                    } catch (Exception e) {
-//                        throw new RuntimeException(e);
-//                    }
-
-                    //Handler for App Timer
                     if (!timerStart){
 
                         int timer=sharedPreferences.getInt(AppConstants.APPTIMELIMITVALUE,0);
@@ -428,8 +412,8 @@ public class MonitorService extends Service  {
             }
         }.start();
 
-        continueButton.setText("Continue on "+getApplicationName(mContext, packageName));
-        continueButton.setText("Close");
+//        continueButton.setText("Continue on "+getApplicationName(mContext, packageName));
+        continueButton.setText("Dismiss");
         dismissButton.setText("I don't want to open "+getApplicationName(mContext, packageName));
         continueButton.setOnClickListener(v -> removeview());
         dismissButton.setOnClickListener(v -> {

@@ -91,6 +91,34 @@ public class ViewPagerAdapter extends PagerAdapter {
             quizButton.setVisibility(View.GONE);
             textViewClickMore.setVisibility(View.GONE);
             exploreButton.setVisibility(View.GONE);
+        }else if (activitiesSet.get(position).contains("Tech News")){
+            quizButton.setVisibility(View.GONE);
+            textViewClickMore.setVisibility(View.GONE);
+            exploreButton.setVisibility(View.VISIBLE);
+            exploreButton.setText("Would you like to explore Tech News?");
+
+        }else if (activitiesSet.get(position).contains("Current Affairs")){
+            quizButton.setVisibility(View.GONE);
+            textViewClickMore.setVisibility(View.GONE);
+            exploreButton.setVisibility(View.VISIBLE);
+            exploreButton.setText("Would you like to know Current Affairs?");
+
+        }else if (activitiesSet.get(position).contains("Business News")){
+            quizButton.setVisibility(View.GONE);
+            textViewClickMore.setVisibility(View.GONE);
+            exploreButton.setVisibility(View.VISIBLE);
+            exploreButton.setText("Read Latest Business News?");
+
+        }else if (activitiesSet.get(position).contains("Today's News")){
+            quizButton.setVisibility(View.GONE);
+            textViewClickMore.setVisibility(View.GONE);
+            exploreButton.setVisibility(View.VISIBLE);
+            exploreButton.setText("Would you like to read the Latest News?");
+
+        }else if (activitiesSet.get(position).contains("Take a Walk")){
+            quizButton.setVisibility(View.GONE);
+            textViewClickMore.setVisibility(View.GONE);
+            exploreButton.setVisibility(View.GONE);
         }
 
 
@@ -162,6 +190,46 @@ public class ViewPagerAdapter extends PagerAdapter {
             intent = new Intent(Intent.ACTION_WEB_SEARCH);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(SearchManager.QUERY, "Sports");
+            context.startActivity(intent);
+
+        }else if (activity.contains("Tech News")) {
+            editor.putBoolean(AppConstants.MOREINFOOPENEDVALIDATION,true);
+            editor.apply();
+            intent = new Intent(Intent.ACTION_WEB_SEARCH);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(SearchManager.QUERY, "Tech News");
+            context.startActivity(intent);
+
+        }else if (activity.contains("Current Affairs")) {
+            editor.putBoolean(AppConstants.MOREINFOOPENEDVALIDATION,true);
+            editor.apply();
+            intent = new Intent(Intent.ACTION_WEB_SEARCH);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(SearchManager.QUERY, "Current Affairs");
+            context.startActivity(intent);
+
+        }else if (activity.contains("Business News")) {
+            editor.putBoolean(AppConstants.MOREINFOOPENEDVALIDATION,true);
+            editor.apply();
+            intent = new Intent(Intent.ACTION_WEB_SEARCH);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(SearchManager.QUERY, "Business News");
+            context.startActivity(intent);
+
+        }else if (activity.contains("Today's News")) {
+            editor.putBoolean(AppConstants.MOREINFOOPENEDVALIDATION,true);
+            editor.apply();
+            intent = new Intent(Intent.ACTION_WEB_SEARCH);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(SearchManager.QUERY, "Today's News");
+            context.startActivity(intent);
+
+        }else if (activity.contains("Take a Walk")) {
+            editor.putBoolean(AppConstants.MOREINFOOPENEDVALIDATION,true);
+            editor.apply();
+            intent = new Intent(Intent.ACTION_WEB_SEARCH);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(SearchManager.QUERY, "Take a Walk");
             context.startActivity(intent);
 
         }

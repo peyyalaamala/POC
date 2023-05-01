@@ -3,6 +3,7 @@ package com.example.stopmindlessscrolling.views;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -39,7 +40,12 @@ public class SplashActivity extends AppCompatActivity {
             Log.e("TAG", "isServiceRunning: "+ Utility.isServiceRunning(this) );
 
             if (!Utility.isServiceRunning(this)){
-                startService(new Intent(SplashActivity.this, MonitorService.class));
+                Intent serviceIntent = new Intent ( SplashActivity.this, MonitorService.class );
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService ( serviceIntent );
+                } else {
+                    startService ( serviceIntent );
+                }
             }
 
 

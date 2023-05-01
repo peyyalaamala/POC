@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -123,7 +124,12 @@ public class HomeActivity extends AppCompatActivity {
             Log.e("TAG", "isServiceRunning: "+Utility.isServiceRunning(this) );
 
            if (!Utility.isServiceRunning(this)){
-               startService(new Intent(HomeActivity.this,MonitorService.class));
+               Intent serviceIntent = new Intent ( HomeActivity.this, MonitorService.class );
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                   startForegroundService ( serviceIntent );
+               } else {
+                   startService ( serviceIntent );
+               }
            }
             installedApps();
 

@@ -49,6 +49,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private CheckBox checkBox3;
     private CheckBox checkBox4;
     private CheckBox checkBox5;
+    private CheckBox checkBox6;
+    private CheckBox checkBox7;
+    private CheckBox checkBox8;
+    private CheckBox checkBox9;
+    private CheckBox checkBox10;
 
 
     public SettingsFragment() {
@@ -110,6 +115,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             checkBox3 = (CheckBox) dialog.findViewById(R.id.CheckBox3);
             checkBox4 = (CheckBox) dialog.findViewById(R.id.CheckBox4);
             checkBox5 = (CheckBox) dialog.findViewById(R.id.CheckBox5);
+            checkBox6 = (CheckBox) dialog.findViewById(R.id.CheckBox6);
+            checkBox7 = (CheckBox) dialog.findViewById(R.id.CheckBox7);
+            checkBox8 = (CheckBox) dialog.findViewById(R.id.CheckBox8);
+            checkBox9 = (CheckBox) dialog.findViewById(R.id.CheckBox9);
+            checkBox10 = (CheckBox) dialog.findViewById(R.id.CheckBox10);
 
             Set<String> activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
 
@@ -125,8 +135,17 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                     checkBoxValidation(activity,checkBox4,"It's time to do Yoga");
                 }if (activity.equalsIgnoreCase("Sports")){
                     checkBoxValidation(activity,checkBox5,"Sports");
+                }if (activity.equalsIgnoreCase("Tech News")){
+                    checkBoxValidation(activity,checkBox6,"Tech News");
+                }if (activity.equalsIgnoreCase("Current Affairs")){
+                    checkBoxValidation(activity,checkBox7,"Current Affairs");
+                }if (activity.equalsIgnoreCase("Business News")){
+                    checkBoxValidation(activity,checkBox8,"Business News");
+                }if (activity.equalsIgnoreCase("Today's News")){
+                    checkBoxValidation(activity,checkBox9,"Today's News");
+                }if (activity.equalsIgnoreCase("Take a Walk")){
+                    checkBoxValidation(activity,checkBox10,"Take a Walk");
                 }
-
 
             }
             checkBox1.setOnCheckedChangeListener(this);
@@ -134,6 +153,11 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             checkBox3.setOnCheckedChangeListener(this);
             checkBox4.setOnCheckedChangeListener(this);
             checkBox5.setOnCheckedChangeListener(this);
+            checkBox6.setOnCheckedChangeListener(this);
+            checkBox7.setOnCheckedChangeListener(this);
+            checkBox8.setOnCheckedChangeListener(this);
+            checkBox9.setOnCheckedChangeListener(this);
+            checkBox10.setOnCheckedChangeListener(this);
 
 
             Window window = dialog.getWindow();
@@ -336,6 +360,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 editor.apply();
 
                 break;
+
+
                 case R.id.CheckBox5:
                 activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
 
@@ -346,6 +372,90 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 }else {
                     activities.remove("Sports");
                     Toast.makeText(requireContext(),"Sports Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+                break;
+
+                case R.id.CheckBox6:
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+                if (isChecked){
+                    activities.add("Tech News");
+                    Toast.makeText(requireContext(),"Tech News Selected",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    activities.remove("Tech News");
+                    Toast.makeText(requireContext(),"Tech News Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+                break;
+
+                case R.id.CheckBox7:
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+                if (isChecked){
+                    activities.add("Current Affairs");
+                    Toast.makeText(requireContext(),"Current Affairs Selected",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    activities.remove("Current Affairs");
+                    Toast.makeText(requireContext(),"Current Affairs Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+                break;
+
+                case R.id.CheckBox8:
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+                if (isChecked){
+                    activities.add("Business News");
+                    Toast.makeText(requireContext(),"Business News Selected",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    activities.remove("Business News");
+                    Toast.makeText(requireContext(),"Business News Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+                break;
+
+                case R.id.CheckBox9:
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+                if (isChecked){
+                    activities.add("Today's News");
+                    Toast.makeText(requireContext(),"Today's News Selected",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    activities.remove("Today's News");
+                    Toast.makeText(requireContext(),"Today's News Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+                break;
+                case R.id.CheckBox10:
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+                if (isChecked){
+                    activities.add("Take a Walk");
+                    Toast.makeText(requireContext(),"Take a Walk Selected",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    activities.remove("Take a Walk");
+                    Toast.makeText(requireContext(),"Take a Walk Unselected",Toast.LENGTH_SHORT).show();
 
                 }
                 editor.putStringSet(AppConstants.ACTIVITIES,activities);
