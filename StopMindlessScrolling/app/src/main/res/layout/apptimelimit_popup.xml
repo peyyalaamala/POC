@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_cornors_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancelButton"
+        android:src="@drawable/ic_cancel"
+        android:layout_marginEnd="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_5sdp"
+        tools:ignore="ContentDescription" />
 
 
     <TextView
@@ -12,7 +24,7 @@
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_15sdp"
         android:fontFamily="@font/opensans_regular"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         android:text="@string/select_app_timer_limit"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

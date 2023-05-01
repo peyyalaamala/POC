@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RemoteViews;
 import android.widget.TextView;
@@ -37,11 +38,15 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.stopmindlessscrolling.R;
+import com.example.stopmindlessscrolling.adapter.ViewPagerAdapter;
 import com.example.stopmindlessscrolling.utility.AppConstants;
 import com.example.stopmindlessscrolling.utility.HomeWatcher;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -49,7 +54,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MonitorService extends Service implements View.OnClickListener {
+public class MonitorService extends Service  {
     private HomeWatcher mHomeWatcher;
     public static final String ACTION_START_FOREGROUND_SERVICE = "Start";
     private LinearLayout mLinear;
@@ -70,11 +75,11 @@ public class MonitorService extends Service implements View.OnClickListener {
     private Timer mTimer = null;    //timer handling
     private Handler handlerAppTimer;
     private Intent intent;
-    private TextView activityTxt1;
-    private TextView activityTxt2;
-    private TextView activityTxt3;
-    private TextView activityTxt4;
-
+    private ViewPager viewPager;
+    private LinearLayout sliderDotspanel;
+    private ViewPagerAdapter viewPagerAdapter;
+    private int dotscount;
+    private ImageView[] dots;
 
 
     public class LocalBinder extends Binder {
@@ -91,6 +96,13 @@ public class MonitorService extends Service implements View.OnClickListener {
 
                 try {
                     Log.e("TAG", "topPackageName: ~~~~~~" +getProcess());
+//
+                    if (sharedPreferences.getBoolean(AppConstants.MOREINFOOPENEDVALIDATION,false)){
+                        removeview();
+                    }
+
+
+
 
                     //Store top package name
                     String toppackageName=getProcess();
@@ -316,86 +328,28 @@ public class MonitorService extends Service implements View.OnClickListener {
         return mBinder;
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.activityTxt1:
-                clickEvent(activityTxt1.getText().toString());
-                break;
-            case R.id.activityTxt2:
-                clickEvent(activityTxt2.getText().toString());
-                break;
-            case R.id.activityTxt3:
-                clickEvent(activityTxt3.getText().toString());
-                break;
-            case R.id.activityTxt4:
-                clickEvent(activityTxt4.getText().toString());
-                break;
+//    @SuppressLint("NonConstantResourceId")
+//    @Override
+//    public void onClick(View v) {
+//        switch (v.getId()){
+//            case R.id.activityTxt1:
+//                clickEvent(activityTxt1.getText().toString());
+//                break;
+//            case R.id.activityTxt2:
+//                clickEvent(activityTxt2.getText().toString());
+//                break;
+//            case R.id.activityTxt3:
+//                clickEvent(activityTxt3.getText().toString());
+//                break;
+//            case R.id.activityTxt4:
+//                clickEvent(activityTxt4.getText().toString());
+//                break;
+//
+//        }
+//    }
 
-        }
-    }
 
 
-
-    private void clickEvent(String activity) {
-        removeview();
-        if (activity.contains("Quiz")){
-            intent = new Intent(Intent.ACTION_WEB_SEARCH);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(SearchManager.QUERY, "Quiz");
-            mContext.startActivity(intent);
-
-        } else if (activity.contains("Explore Motivational Quotes")) {
-            try {
-                intent=new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.unfoldlabs.unfoldquotes"));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
-            } catch (android.content.ActivityNotFoundException anfe) {
-                intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.unfoldlabs.unfoldquotes" ));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
-            }
-
-        } else if (activity.contains("Explore Articles")) {
-            intent = new Intent(Intent.ACTION_WEB_SEARCH);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(SearchManager.QUERY, "Explore Articles");
-            mContext.startActivity(intent);
-
-        }else if (activity.contains("Yoga")) {
-            intent = new Intent(Intent.ACTION_WEB_SEARCH);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(SearchManager.QUERY, "Yoga");
-            mContext.startActivity(intent);
-
-        }
-
-    }
-
-    // slide the view from its current position to below itself
-    public void slideDown(View view){
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                0,                 // fromYDelta
-                view.getHeight()); // toYDelta
-        animate.setDuration(500);
-        animate.setFillAfter(true);
-        view.startAnimation(animate);
-    }
-    // slide the view from below itself to the current position
-    public void slideUp(View view){
-        view.setVisibility(View.VISIBLE);
-        TranslateAnimation animate = new TranslateAnimation(
-                0,                 // fromXDelta
-                0,                 // toXDelta
-                view.getHeight(),  // fromYDelta
-                0);                // toYDelta
-        animate.setDuration(500);
-        animate.setFillAfter(true);
-        view.startAnimation(animate);
-    }
     @SuppressLint("SetTextI18n")
     private void showPopUp(String packageName) {
 
@@ -404,65 +358,64 @@ public class MonitorService extends Service implements View.OnClickListener {
         mView = new LinearLayout(getApplicationContext());
         inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         mView = inflater.inflate(R.layout.windowmanager_view, mLinear);
-        ConstraintLayout constraintLayout=mView.findViewById(R.id.constraintLayout);
         Button continueButton=mView.findViewById(R.id.continueButton);
         Button dismissButton=mView.findViewById(R.id.dismissButton);
-        activityTxt1=mView.findViewById(R.id.activityTxt1);
-        activityTxt2=mView.findViewById(R.id.activityTxt2);
-        activityTxt3=mView.findViewById(R.id.activityTxt3);
-        activityTxt4=mView.findViewById(R.id.activityTxt4);
+        viewPager = mView.findViewById(R.id.viewPager);
+
+        sliderDotspanel = mView.findViewById(R.id.SliderDots);
+        Set<String> activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+        if (activities.size()>0){
+            viewPagerAdapter = new ViewPagerAdapter(new ArrayList<>(activities), mContext);
+
+            viewPager.setAdapter(viewPagerAdapter);
+
+            dotscount = viewPagerAdapter.getCount();
+            dots = new ImageView[dotscount];
+
+            for(int i = 0; i < dotscount; i++){
+
+                dots[i] = new ImageView(mContext);
+                dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.dot_inactive));
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                params.setMargins(8, 0, 8, 0);
+
+                sliderDotspanel.addView(dots[i], params);
+
+            }
+
+            dots[0].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.dot_active));
+
+        }
 
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                for(int i = 0; i< dotscount; i++){
+                    dots[i].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.dot_inactive));
+                }
+
+                dots[position].setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.dot_active));
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         TextView timerTxt=mView.findViewById(R.id.timerTxt);
 
-
-        Set<String> activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
-
-        String[] strings= activities.toArray(new String[0]);
-
-
-
-        if (strings.length==1){
-            activityTxt1.setText("1. "+strings[0]);
-        }else if (strings.length==2){
-            activityTxt1.setText("1. "+strings[0]);
-            activityTxt2.setText("2. "+strings[1]);
-        }else if (strings.length==3){
-            activityTxt1.setText("1. "+strings[0]);
-            activityTxt2.setText("2. "+strings[1]);
-            activityTxt3.setText("3. "+strings[2]);
-        }else if (strings.length==4){
-            activityTxt1.setText("1. "+strings[0]);
-            activityTxt2.setText("2. "+strings[1]);
-            activityTxt3.setText("3. "+strings[2]);
-            activityTxt4.setText("4. "+strings[3]);
-        }
-
-        activityTxt1.setOnClickListener(this);
-        activityTxt2.setOnClickListener(this);
-        activityTxt3.setOnClickListener(this);
-        activityTxt4.setOnClickListener(this);
-
-
-
-//        titleTxt.setText(activities.toString());
-
-//        final Animation slide_down = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_down);
-//        final Animation slide_up = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.slide_up);
-//
-//        constraintLayout.setAnimation(slide_up);
-
-//        activityTxt1.setOnClickListener(v -> {
-//            removeview();
-////            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("yoga"));
-////            browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-////            mContext.startActivity(browserIntent);
-//            Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            intent.putExtra(SearchManager.QUERY, "its time to do yoga"); // query contains search string
-//            mContext.startActivity(intent);
-//        });
 
         final int[] counter = {30};
         new CountDownTimer(30000, 1000){
@@ -476,23 +429,15 @@ public class MonitorService extends Service implements View.OnClickListener {
         }.start();
 
         continueButton.setText("Continue on "+getApplicationName(mContext, packageName));
+        continueButton.setText("Close");
         dismissButton.setText("I don't want to open "+getApplicationName(mContext, packageName));
-//        titleTxt.setText(sharedPreferences.getString(AppConstants.QUIZQUESTION,""));
-        continueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeview();
-            }
-        });
-        dismissButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeview();
-                Intent startMain = new Intent(Intent.ACTION_MAIN);
-                startMain.addCategory(Intent.CATEGORY_HOME);
-                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(startMain);
-            }
+        continueButton.setOnClickListener(v -> removeview());
+        dismissButton.setOnClickListener(v -> {
+            removeview();
+            Intent startMain = new Intent(Intent.ACTION_MAIN);
+            startMain.addCategory(Intent.CATEGORY_HOME);
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startMain);
         });
 
         int LAYOUT_FLAG;
@@ -543,6 +488,8 @@ public class MonitorService extends Service implements View.OnClickListener {
                 handler.removeCallbacksAndMessages(null);
                 Log.e("TAG", "app timer finished: view removed ");
                 timerStart=false;
+                editor.putBoolean(AppConstants.MOREINFOOPENEDVALIDATION,false);
+                editor.apply();
             }
         } catch (Exception e) {
             e.printStackTrace();

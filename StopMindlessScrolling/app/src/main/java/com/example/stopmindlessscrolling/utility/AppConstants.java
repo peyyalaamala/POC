@@ -14,4 +14,5 @@ public class AppConstants {
     public static final String TOPPACKAGENAME = "topPackageName";
     public static final String RECENTLYOPENAPPS = "recentlyOpenApps";
     public static final String ACTIVITIES = "activities";
+    public static final String MOREINFOOPENEDVALIDATION = "MOREINFOOPENEDVALIDATIONValidation";
 }

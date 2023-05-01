@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">StopMindlessScrolling</string>
+    <string name="app_name">Mindless Scrolling</string>
     <string name="usageAccess">Usage Access Permission</string>
     <string name="accept_permission_string">Accept Permission</string>
-    <string name="ok">Okay</string>
+    <string name="ok">OK</string>
     <string name="usage_stats_hint">You are using Android Version 5.0 and above.
             Please add StopMindlessScrolling to Apps with Usage Access in Device Settings. \n\n Thank you</string>
     <string name="display_over_apps">You are using Android Version 5.0 and above.
@@ -20,4 +20,13 @@
     <string name="app_version">v1.0.1.1</string>
     <string name="powered_by" >Powered by  </string>
     <string name="btn_add_contact"><u>Add new contact</u></string>
+    <string name="click_more"><u>More info</u></string>
+    <string name="dismissed_in">Dismiss in</string>
+    <string name="explore">Explore</string>
+    <string name="take_quiz">Take Quiz</string>
+    <string name="quiz">Quiz</string>
+    <string name="explore_motivational_quotes">Explore Motivational Quotes</string>
+    <string name="explore_articles">Explore Articles</string>
+    <string name="it_s_time_to_do_yoga">It\'s time to do Yoga</string>
+    <string name="sports">Sports</string>
 </resources>

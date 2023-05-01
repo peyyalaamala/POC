@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
     private CheckBox checkBox2;
     private CheckBox checkBox3;
     private CheckBox checkBox4;
+    private CheckBox checkBox5;
 
 
     public SettingsFragment() {
@@ -107,6 +109,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             checkBox2 = (CheckBox) dialog.findViewById(R.id.CheckBox2);
             checkBox3 = (CheckBox) dialog.findViewById(R.id.CheckBox3);
             checkBox4 = (CheckBox) dialog.findViewById(R.id.CheckBox4);
+            checkBox5 = (CheckBox) dialog.findViewById(R.id.CheckBox5);
 
             Set<String> activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
 
@@ -118,8 +121,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                     checkBoxValidation(activity,checkBox2,"Explore Motivational Quotes");
                 } if (activity.equalsIgnoreCase("Explore Articles")){
                     checkBoxValidation(activity,checkBox3,"Explore Articles");
-                } if (activity.equalsIgnoreCase("Yoga")){
-                    checkBoxValidation(activity,checkBox4,"Yoga");
+                } if (activity.equalsIgnoreCase("It's time to do Yoga")){
+                    checkBoxValidation(activity,checkBox4,"It's time to do Yoga");
+                }if (activity.equalsIgnoreCase("Sports")){
+                    checkBoxValidation(activity,checkBox5,"Sports");
                 }
 
 
@@ -128,6 +133,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             checkBox2.setOnCheckedChangeListener(this);
             checkBox3.setOnCheckedChangeListener(this);
             checkBox4.setOnCheckedChangeListener(this);
+            checkBox5.setOnCheckedChangeListener(this);
 
 
             Window window = dialog.getWindow();
@@ -139,7 +145,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
             dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
 
 
+            ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
 
+            cancelButton.setOnClickListener(v -> {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            });
 
             okBtn.setOnClickListener(v -> {
                 if (dialog.isShowing()) {
@@ -185,8 +197,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
 
 
 
-            Button okBtn = (Button) dialog.findViewById(R.id.okBtn);
-            radioGroup = (RadioGroup) dialog.findViewById(R.id.radioGroup);
+            Button okBtn = dialog.findViewById(R.id.okBtn);
+            radioGroup = dialog.findViewById(R.id.radioGroup);
+
+            ImageView cancelButton = dialog.findViewById(R.id.cancelButton);
+
+            cancelButton.setOnClickListener(v -> {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            });
 
             int radioButtonId=sharedPreferences.getInt(AppConstants.APPTIMELIMITID,0);
             if (radioButtonId!=0){
@@ -304,12 +324,28 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
 
                 if (isChecked){
-                    activities.add("Yoga");
-                    Toast.makeText(requireContext(),"Yoga Selected",Toast.LENGTH_SHORT).show();
+                    activities.add("It's time to do Yoga");
+                    Toast.makeText(requireContext(),"It's time to do Yoga Selected",Toast.LENGTH_SHORT).show();
 
                 }else {
-                    activities.remove("Yoga");
-                    Toast.makeText(requireContext(),"Yoga Unselected",Toast.LENGTH_SHORT).show();
+                    activities.remove("It's time to do Yoga");
+                    Toast.makeText(requireContext(),"It's time to do Yoga Unselected",Toast.LENGTH_SHORT).show();
+
+                }
+                editor.putStringSet(AppConstants.ACTIVITIES,activities);
+                editor.apply();
+
+                break;
+                case R.id.CheckBox5:
+                activities=sharedPreferences.getStringSet(AppConstants.ACTIVITIES,new HashSet<>());
+
+                if (isChecked){
+                    activities.add("Sports");
+                    Toast.makeText(requireContext(),"Sports Selected",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    activities.remove("Sports");
+                    Toast.makeText(requireContext(),"Sports Unselected",Toast.LENGTH_SHORT).show();
 
                 }
                 editor.putStringSet(AppConstants.ACTIVITIES,activities);

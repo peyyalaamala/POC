@@ -2,17 +2,27 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/rounded_cornors_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancelButton"
+        android:src="@drawable/ic_cancel"
+        android:layout_marginEnd="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/_5sdp"
+        tools:ignore="ContentDescription" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/_15sdp"
         android:gravity="center"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         android:text="Select the option to guide you on mindless scrolling"
         android:fontFamily="@font/opensans_regular"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -35,7 +45,7 @@
             android:buttonTint="@color/colorPrimary"
             android:textColor="@color/colorPrimary"
             android:fontFamily="@font/opensans_regular"
-            android:text="Quiz"/>
+            android:text="@string/quiz"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +53,7 @@
             android:textColor="@color/colorPrimary"
             android:fontFamily="@font/opensans_regular"
             android:id="@+id/CheckBox2"
-            android:text="Explore Motivational Quotes"/>
+            android:text="@string/explore_motivational_quotes"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,7 +61,7 @@
             android:buttonTint="@color/colorPrimary"
             android:textColor="@color/colorPrimary"
             android:fontFamily="@font/opensans_regular"
-            android:text="Explore Articles"/>
+            android:text="@string/explore_articles"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,7 +69,16 @@
             android:buttonTint="@color/colorPrimary"
             android:textColor="@color/colorPrimary"
             android:fontFamily="@font/opensans_regular"
-            android:text="Yoga"/>
+            android:text="@string/it_s_time_to_do_yoga"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/CheckBox5"
+            android:visibility="gone"
+            android:buttonTint="@color/colorPrimary"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/opensans_regular"
+            android:text="@string/sports"/>
   </LinearLayout>
 
     <Button

@@ -66,10 +66,17 @@ public class ConfigureAppsAdapter extends RecyclerView.Adapter<ConfigureAppsAdap
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.configure_apps_list_row, parent, false);
-
         return new MyViewHolder(itemView);
     }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
     @SuppressLint("MutatingSharedPrefs")
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
