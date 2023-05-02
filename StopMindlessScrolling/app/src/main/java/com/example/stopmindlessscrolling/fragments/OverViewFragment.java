@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,7 @@ public class OverViewFragment extends Fragment {
         Set<String> slectedAppsStringSet=sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>());
         Set<String> recentlyAppsSet=sharedPreferences.getStringSet(AppConstants.RECENTLYOPENAPPS,new LinkedHashSet<>());
 
-        Set<String> stringSet=new LinkedHashSet<>();
+        LinkedHashSet<String> stringSet=new LinkedHashSet<>();
 
             for (String recentlyAppName : recentlyAppsSet) {
 
@@ -76,6 +77,9 @@ public class OverViewFragment extends Fragment {
             }
 
         List<String> overViewAppsList = new ArrayList<>(stringSet);
+
+        Log.e("TAG", "overViewAppsList: "+overViewAppsList.size() );
+        Log.e("TAG", "overViewAppsList: "+overViewAppsList );
 
             if (overViewAppsList.size()>0){
                 recyclerViewOverView.setVisibility(View.VISIBLE);

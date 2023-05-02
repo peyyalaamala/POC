@@ -82,8 +82,8 @@ public class OverViewAppsAdapter extends RecyclerView.Adapter<OverViewAppsAdapte
 
     @Override
     public int getItemCount() {
-//        return appsList.size();
-        return (Math.min(appsList.size(), 5));
+        return appsList.size();
+//        return (Math.min(appsList.size(), 5));
     }
     public  String getApplicationName(Context context,String packageName) {
         PackageManager packageManager = null;

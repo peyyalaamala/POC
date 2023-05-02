@@ -73,13 +73,14 @@ public class MonitorService extends Service  {
     int count = 0;  //number of times service is display
     private Handler mHandler = new Handler();   //run on another Thread to avoid crash
     private Timer mTimer = null;    //timer handling
-    private Handler handlerAppTimer;
+
     private Intent intent;
     private ViewPager viewPager;
     private LinearLayout sliderDotspanel;
     private ViewPagerAdapter viewPagerAdapter;
     private int dotscount;
     private ImageView[] dots;
+    private CountDownTimer countDownTimer;
 
 
     public class LocalBinder extends Binder {
@@ -92,29 +93,39 @@ public class MonitorService extends Service  {
         @Override
         public void run() {
             mHandler.post(() -> {
-                Log.e("TAG", "Service is running: " );
 
                 try {
-                    Log.e("TAG", "topPackageName: ~~~~~~" +getProcess());
                     if (sharedPreferences.getBoolean(AppConstants.MOREINFOOPENEDVALIDATION,false)){
-                        removeview();
+                        removeview(1);
                     }
 
                     //Store top package name
-                    String toppackageName=getProcess();
-                    if (toppackageName!=null){
+                    String topPkgName=getProcess();
+                    if (topPkgName!=null){
+                        if (!topPkgName.equalsIgnoreCase(sharedPreferences.getString(AppConstants.PREVIOUSPACKAGENAME,""))){
+                            editor.putString(AppConstants.PREVIOUSPACKAGENAME,getProcess());
+                            editor.apply();
+                            Log.e("TAG", "timerStart new app opened: ");
+                            if (handler!=null){
+                                handler.removeCallbacksAndMessages(null);
+                            }
+                            timerStart=false;
+                        }
                         editor.putString(AppConstants.TOPPACKAGENAME,getProcess());
                         editor.apply();
                     }
 
                     if (!timerStart){
-
+                        Log.e("TAG", "timerStart run: restart" );
                         int timer=sharedPreferences.getInt(AppConstants.APPTIMELIMITVALUE,0);
-                        handlerAppTimer = new Handler();
+
                         int delay = timer*1000;
 
                         handler.postDelayed(new Runnable() {
                             public void run() {
+
+
+                                Log.e("TAG", "timerStart run: " );
 
                                 handler.postDelayed(this, delay);
                                 try {
@@ -206,7 +217,7 @@ public class MonitorService extends Service  {
     public void onDestroy() {
         super.onDestroy();
 
-        removeview();
+        removeview(2);
         if (mHomeWatcher != null) {
             mHomeWatcher.stopWatch();
         }
@@ -222,21 +233,21 @@ public class MonitorService extends Service  {
             @Override
             public void onHomePressed() {
                 Log.e("mHomeWatcher", "onHomePressed: ");
-                removeview();
+                removeview(3);
 
             }
 
             @Override
             public void onBackPressed() {
                 Log.e("mHomeWatcher", "onBackPressed: ");
-                removeview();
+                removeview(4);
 
             }
 
             @Override
             public void onHomeLongPressed() {
                 Log.e("mHomeWatcher", "onHomeLongPressed: ");
-                removeview();
+                removeview(5);
 
             }
 
@@ -402,22 +413,22 @@ public class MonitorService extends Service  {
 
 
         final int[] counter = {30};
-        new CountDownTimer(30000, 1000){
+       countDownTimer= new CountDownTimer(30000, 1000){
             public void onTick(long millisUntilFinished){
                 timerTxt.setText(String.valueOf(counter[0]));
                 counter[0]--;
             }
             public  void onFinish(){
-                removeview();
+                removeview(6);
             }
         }.start();
 
 //        continueButton.setText("Continue on "+getApplicationName(mContext, packageName));
         continueButton.setText("Dismiss");
         dismissButton.setText("I don't want to open "+getApplicationName(mContext, packageName));
-        continueButton.setOnClickListener(v -> removeview());
+        continueButton.setOnClickListener(v -> removeview(7));
         dismissButton.setOnClickListener(v -> {
-            removeview();
+            removeview(8);
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -448,7 +459,7 @@ public class MonitorService extends Service  {
                 Log.e("addView", "~~~~~~~~~~: ");
                 mWindowManager.addView(mView, mParams);
                 isShown=true;
-                Set<String> recentlyAppsSet=new LinkedHashSet<>();
+                LinkedHashSet<String> recentlyAppsSet=new LinkedHashSet<>(sharedPreferences.getStringSet(AppConstants.RECENTLYOPENAPPS,new LinkedHashSet<>()));
                 recentlyAppsSet.add(packageName);
                 editor.putStringSet(AppConstants.RECENTLYOPENAPPS,recentlyAppsSet);
                 editor.apply();
@@ -460,9 +471,9 @@ public class MonitorService extends Service  {
 
     }
 
-    private void removeview() {
+    private void removeview(int value) {
         try {
-            Log.e("~~~~~", "removeview: ");
+            Log.e("~~~~~", "removeview: "+value);
             if (mWindowManager != null && mView != null) {
 
                 mWindowManager.removeView(mView);
@@ -470,7 +481,7 @@ public class MonitorService extends Service  {
                 mView = null;
                 isShown=false;
                 handler.removeCallbacksAndMessages(null);
-                Log.e("TAG", "app timer finished: view removed ");
+                countDownTimer.cancel();
                 timerStart=false;
                 editor.putBoolean(AppConstants.MOREINFOOPENEDVALIDATION,false);
                 editor.apply();
