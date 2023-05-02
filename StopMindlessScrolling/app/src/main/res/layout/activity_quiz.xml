@@ -9,12 +9,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorPrimary"
     >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Quiz"
+        android:id="@+id/tvres1"
+        android:fontFamily="@font/opensans_bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#FFF"
+        android:textAlignment="center"
+        android:textSize="@dimen/text_title_size" />
 
     <TextView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/DispName"
+        android:textSize="@dimen/text_size"
         android:textColor="@color/accent_material_light"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -36,6 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A"
+            android:textSize="@dimen/text_size"
             android:id="@+id/radioButton"
             android:checked="false"
             />
@@ -44,6 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="B"
+            android:textSize="@dimen/text_size"
             android:id="@+id/radioButton2"
             android:checked="false" />
 
@@ -51,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="C"
+            android:textSize="@dimen/text_size"
             android:id="@+id/radioButton3"
             android:checked="false" />
 
@@ -58,6 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="D"
+            android:textSize="@dimen/text_size"
             android:id="@+id/radioButton4"
             android:checked="false" />
 
@@ -68,6 +88,7 @@
         android:layout_height="wrap_content"
         android:text="Next Question"
         android:id="@+id/button3"
+        android:textSize="@dimen/text_size"
         android:layout_marginTop="27dp"
         android:layout_below="@+id/answersgrp"
         android:layout_alignParentRight="true"
@@ -79,6 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Quit"
+        android:textSize="@dimen/text_size"
         android:id="@+id/buttonquit"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/button3"
@@ -92,6 +114,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Questions"
+        android:textSize="@dimen/text_size"
         android:id="@+id/tvque"
         android:layout_marginBottom="52dp"
         android:layout_above="@+id/answersgrp"

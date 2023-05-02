@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/colorPrimary"
     tools:context=".views.ConfigureAppsActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/titleTxt"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/_12sdp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_title_size"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
         android:layout_marginTop="@dimen/_20sdp"
-        android:fontFamily="@font/opensans_regular"
+        android:fontFamily="@font/opensans_bold"
         android:text="@string/please_select_applications_you_want_to_configure_for_app_timer_limit"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

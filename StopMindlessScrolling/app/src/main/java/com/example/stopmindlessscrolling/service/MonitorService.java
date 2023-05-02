@@ -10,9 +10,11 @@ import android.app.SearchManager;
 import android.app.Service;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStatsManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -55,6 +57,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MonitorService extends Service  {
+    private static final String NOTIFY_ACTIVITY_ACTION = "1111";
     private HomeWatcher mHomeWatcher;
     public static final String ACTION_START_FOREGROUND_SERVICE = "Start";
     private LinearLayout mLinear;
@@ -412,8 +415,8 @@ public class MonitorService extends Service  {
         TextView timerTxt=mView.findViewById(R.id.timerTxt);
 
 
-        final int[] counter = {30};
-       countDownTimer= new CountDownTimer(30000, 1000){
+        final int[] counter = {60};
+       countDownTimer= new CountDownTimer(60000, 1000){
             public void onTick(long millisUntilFinished){
                 timerTxt.setText(String.valueOf(counter[0]));
                 counter[0]--;
@@ -500,5 +503,7 @@ public class MonitorService extends Service  {
         }
         return (String) packageManager.getApplicationLabel(applicationInfo);
     }
+
+
 
 }

@@ -9,76 +9,107 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorPrimary">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/tvres"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:background="#F44336"
-        android:textColor="#000000"
-        android:textAlignment="center"
-        android:textSize="19dp" />
-
-    <Button
-        android:id="@+id/btnRestart"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="70dp"
-        android:background="#01579B"
-        android:text="Restart"
-        android:layout_below="@+id/tvres3"
-        android:textColor="#ffffff" />
+        android:layout_margin="@dimen/_15sdp"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Your Performance Result"
+            android:id="@+id/tvres1"
+            android:fontFamily="@font/opensans_bold"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:textColor="#FFF"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_title_size" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:fontFamily="@font/opensans_bold"
+            android:id="@+id/tvres"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:background="#F44336"
+            android:textColor="#000000"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size" />
 
-    <Button
-        android:id="@+id/btnBacktoHome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnRestart"
-        android:layout_marginBottom="119dp"
-        android:background="#01579B"
-        android:text="Back To Home"
-        android:textColor="#ffffff" />
+        <Button
+            android:id="@+id/btnRestart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="50dp"
+            android:fontFamily="@font/opensans_bold"
+            android:layout_marginTop="70dp"
+            android:background="#01579B"
+            android:text="Restart"
+            android:textSize="@dimen/text_size"
+            android:layout_below="@+id/tvres3"
+            android:textColor="#ffffff" />
 
-    <TextView
-        android:id="@+id/tvres2"
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_below="@+id/tvres"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="31dp"
-        android:background="#76FF03"
-        android:text="Large Text"
-        android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#000000"
-        android:textSize="19dp" />
+        <Button
+            android:id="@+id/btnBacktoHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnRestart"
+            android:layout_marginBottom="119dp"
+            android:background="#01579B"
+            android:fontFamily="@font/opensans_bold"
+            android:text="Back To Home"
+            android:textSize="@dimen/text_size"
+            android:textColor="#ffffff" />
 
-    <TextView
-        android:id="@+id/tvres3"
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_below="@+id/tvres2"
-        android:layout_alignEnd="@+id/tvres2"
-        android:layout_alignRight="@+id/tvres2"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="33dp"
-        android:background="#FFEB3B"
-        android:text="Large Text"
-        android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#000000"
-        android:textSize="19dp" />
+        <TextView
+            android:id="@+id/tvres2"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_below="@+id/tvres"
+            android:gravity="center"
+            android:fontFamily="@font/opensans_bold"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="31dp"
+            android:background="#76FF03"
+            android:text="Large Text"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/tvres3"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_below="@+id/tvres2"
+            android:layout_alignEnd="@+id/tvres2"
+            android:gravity="center"
+            android:layout_alignRight="@+id/tvres2"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="33dp"
+            android:background="#FFEB3B"
+            android:text="Large Text"
+            android:fontFamily="@font/opensans_bold"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000"
+            android:textSize="@dimen/text_size" />
+    </RelativeLayout>
+
 </RelativeLayout>

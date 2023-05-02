@@ -93,10 +93,28 @@ public class SettingsFragment extends Fragment implements View.OnClickListener, 
                 break;
 
             case R.id.appTimeLimitTxt:
-                showAppTimeLimitPopup();
+                try {
+                    if (sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>()).size()>0){
+                        showAppTimeLimitPopup();
+                    }else {
+                        Toast.makeText(requireContext(),"Select App(s) for Mindless Scrolling to Set Time.",Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 break;
             case R.id.quizzTxt:
-                showQuizPopup();
+                try {
+                    if (sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>()).size()>0){
+                        showQuizPopup();
+                    }else {
+                        Toast.makeText(requireContext(),"Select App(s) for Mindless Scrolling to Set Activities.",Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 break;
         }
     }

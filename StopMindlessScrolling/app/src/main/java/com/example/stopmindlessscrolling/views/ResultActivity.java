@@ -45,6 +45,7 @@ public class ResultActivity extends AppCompatActivity {
         btnBacktoHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent in = new Intent(getApplicationContext(),HomeActivity.class);
                 startActivity(in);
             }

@@ -6,37 +6,49 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/titletextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:fontFamily="@font/opensans_regular"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:fontFamily="@font/opensans_bold"
         android:gravity="center"
         android:text="@string/app_name"
         android:textColor="@color/white"
-        android:textSize="@dimen/_12sdp" />
+        android:textSize="@dimen/text_title_size" />
+
+    <TextView
+        android:id="@+id/desTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/titletextView"
+        android:layout_margin="@dimen/_20sdp"
+        android:fontFamily="@font/opensans_bold"
+        android:gravity="left"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/click_more"
-        android:textSize="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:textSize="@dimen/text_size"
+        android:layout_marginBottom="@dimen/_15sdp"
         android:gravity="end"
         android:visibility="gone"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_alignParentBottom="true"
         android:textColor="@color/app_icon_color"
-        android:fontFamily="@font/opensans_regular"
+        android:fontFamily="@font/opensans_bold"
         android:adjustViewBounds="true"
         android:id="@+id/textViewClickMore" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/explore"
-        android:textSize="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:textSize="@dimen/text_size"
+        android:layout_marginBottom="@dimen/_15sdp"
         android:gravity="center"
         android:visibility="gone"
         android:textAllCaps="false"
@@ -45,15 +57,15 @@
         android:layout_alignParentBottom="true"
         android:textColor="@color/colorPrimary"
         android:layout_alignParentEnd="true"
-        android:fontFamily="@font/opensans_regular"
+        android:fontFamily="@font/opensans_bold"
         android:adjustViewBounds="true"
         android:id="@+id/exploreButton" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/take_quiz"
-        android:textSize="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:textSize="@dimen/text_size"
+        android:layout_marginBottom="@dimen/_14sdp"
         android:gravity="center"
         android:visibility="visible"
         android:textAllCaps="false"
@@ -62,7 +74,7 @@
         android:layout_alignParentBottom="true"
         android:textColor="@color/colorPrimary"
         android:layout_alignParentEnd="true"
-        android:fontFamily="@font/opensans_regular"
+        android:fontFamily="@font/opensans_bold"
         android:adjustViewBounds="true"
         android:id="@+id/quizButton" />
 

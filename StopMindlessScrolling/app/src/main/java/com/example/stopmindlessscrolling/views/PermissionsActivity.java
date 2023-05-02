@@ -34,19 +34,13 @@ public class PermissionsActivity extends AppCompatActivity {
      * To show draw over other apps permission dialog
      */
     private void usageAccessPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (Utility.getUsageStatsList(PermissionsActivity.this) != null &&
-                    Utility.getUsageStatsList(PermissionsActivity.this).isEmpty()) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (!Settings.canDrawOverlays(PermissionsActivity.this)) {
-                    }
-                }
-                homePermission();
-            } else {
-                Intent intent=new Intent(PermissionsActivity.this, HomeActivity.class);
-                startActivity(intent);
+        if (Utility.getUsageStatsList(PermissionsActivity.this) != null &&
+                Utility.getUsageStatsList(PermissionsActivity.this).isEmpty()) {
+            homePermission();
+        } else {
+            Intent intent=new Intent(PermissionsActivity.this, HomeActivity.class);
+            startActivity(intent);
 
-            }
         }
     }
 
@@ -68,6 +62,8 @@ public class PermissionsActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                     dialog.dismiss();
+                    finish();
+
                 }
                 return true;
             }
@@ -99,6 +95,8 @@ public class PermissionsActivity extends AppCompatActivity {
     private void displayoverotherApps(){
         if (!Settings.canDrawOverlays(PermissionsActivity.this)) {
             displayoverotherappsdialog();
+        }else {
+            usageAccessPermission();
         }
     }
     /**
@@ -111,17 +109,13 @@ public class PermissionsActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.usage_access_permission_popup);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCanceledOnTouchOutside(false);
-        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
-
-            @Override
-            public boolean onKey(DialogInterface arg0, int keyCode,
-                                 KeyEvent event) {
-                // TODO Auto-generated method stub
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    dialog.dismiss();
-                }
-                return true;
+        dialog.setOnKeyListener((arg0, keyCode, event) -> {
+            // TODO Auto-generated method stub
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                dialog.dismiss();
+                finish();
             }
+            return true;
         });
         TextView ok = (TextView) dialog.findViewById(R.id.okBtn);
         TextView okTxt = (TextView) dialog.findViewById(R.id.okTxt);
@@ -129,6 +123,7 @@ public class PermissionsActivity extends AppCompatActivity {
         dialog.show();
         ok.setOnClickListener(new View.OnClickListener() {
 
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
@@ -148,7 +143,7 @@ public class PermissionsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        usageAccessPermission();
         displayoverotherApps();
     }
+
 }

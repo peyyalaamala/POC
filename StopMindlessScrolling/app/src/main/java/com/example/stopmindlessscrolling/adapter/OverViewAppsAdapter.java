@@ -95,4 +95,13 @@ public class OverViewAppsAdapter extends RecyclerView.Adapter<OverViewAppsAdapte
         }
         return (String) packageManager.getApplicationLabel(applicationInfo);
     }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 }
