@@ -104,4 +104,7 @@ public class OverViewAppsAdapter extends RecyclerView.Adapter<OverViewAppsAdapte
     public int getItemViewType(int position) {
         return position;
     }
+
+
+
 }

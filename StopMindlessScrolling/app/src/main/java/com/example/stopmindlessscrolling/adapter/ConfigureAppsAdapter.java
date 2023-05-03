@@ -87,6 +87,17 @@ public class ConfigureAppsAdapter extends RecyclerView.Adapter<ConfigureAppsAdap
             holder.appIcon.setImageDrawable(icon);
             holder.appNameTxt.setText(getApplicationName(context, appInfo.getPackageName()));
             holder.appcheckBox.setChecked(appInfo.getSelected());
+            Set<String> selectedAppslatest=sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>());
+            Set<String> unselectedAppslatest=sharedPreferences.getStringSet(AppConstants.UNSELECTEDAPPS,new HashSet<>());
+
+            if (selectedAppslatest.contains(appInfo.packageName)){
+                holder.appcheckBox.setChecked(true);
+            }else if (unselectedAppslatest.contains(appInfo.packageName)){
+                holder.appcheckBox.setChecked(false);
+            }else {
+                holder.appcheckBox.setChecked(false);
+            }
+
 
             holder.appcheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 Set<String> selectedApps=sharedPreferences.getStringSet(AppConstants.SELECTEDAPPS,new HashSet<>());
