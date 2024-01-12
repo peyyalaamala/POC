@@ -128,7 +128,7 @@ public class MonitorService extends Service  {
                             public void run() {
 
 
-                                Log.e("TAG", "timerStart run: " );
+//                                Log.e("TAG", "timerStart run: " );
 
                                 handler.postDelayed(this, delay);
                                 try {

@@ -18,7 +18,7 @@
     <string name="select_question">Select Activity</string>
     <string name="please_select_applications_you_want_to_configure_for_app_timer_limit">Select App(s) for Mindless Scrolling</string>
     <string name="app_version">v1.0.1.1</string>
-    <string name="powered_by" >Powered by  </string>
+    <string name="powered_by">Powered by  </string>
     <string name="btn_add_contact"><u>Add new contact</u></string>
     <string name="click_more"><u>More info</u></string>
     <string name="dismissed_in">Dismiss in</string>

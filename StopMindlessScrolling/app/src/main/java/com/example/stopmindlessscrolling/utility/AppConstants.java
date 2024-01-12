@@ -16,4 +16,10 @@ public class AppConstants {
     public static final String RECENTLYOPENAPPS = "recentlyOpenApps";
     public static final String ACTIVITIES = "activities";
     public static final String MOREINFOOPENEDVALIDATION = "MOREINFOOPENEDVALIDATIONValidation";
+    public static final CharSequence LOADING = "Loading....";
+
+    public static final String WEBURL = "weburl";
+    public static final String WEBTITLE = "title";
+    public static  final String  MAILTO  =  "mailto:";
+    public static  final String  TEXTPLAIN  =  "text/plain";
 }

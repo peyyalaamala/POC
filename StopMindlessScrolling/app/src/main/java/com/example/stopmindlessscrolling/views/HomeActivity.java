@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,12 +23,15 @@ import com.example.stopmindlessscrolling.fragments.OverViewFragment;
 import com.example.stopmindlessscrolling.fragments.SettingsFragment;
 import com.example.stopmindlessscrolling.service.MonitorService;
 import com.example.stopmindlessscrolling.utility.AppConstants;
+import com.example.stopmindlessscrolling.utility.GPSTracker;
 import com.example.stopmindlessscrolling.utility.Utility;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 
@@ -89,6 +94,9 @@ public class HomeActivity extends AppCompatActivity {
                     bottomNavigationView.getMenu().getItem(0).setChecked(false);
                 }
                 Log.d("page",""+position);
+
+                getCityName();
+
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
 
@@ -123,19 +131,58 @@ public class HomeActivity extends AppCompatActivity {
 
             Log.e("TAG", "isServiceRunning: "+Utility.isServiceRunning(this) );
 
-           if (!Utility.isServiceRunning(this)){
-               Intent serviceIntent = new Intent ( HomeActivity.this, MonitorService.class );
-               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                   startForegroundService ( serviceIntent );
-               } else {
-                   startService ( serviceIntent );
-               }
-           }
+            getCityName();
+
+            if (!Utility.isServiceRunning(this)){
+                Intent serviceIntent = new Intent ( HomeActivity.this, MonitorService.class );
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService ( serviceIntent );
+                } else {
+                    startService ( serviceIntent );
+                }
+            }
             installedApps();
+
+
+
+
 
         }catch (Exception e){
             e.printStackTrace();
         }
+
+    }
+
+    //Get city name
+    private void getCityName() {
+        // Create class object
+        GPSTracker gps = new GPSTracker(HomeActivity.this);
+
+        // Check if GPS enabled
+        if (gps.canGetLocation()) {
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+                String cityName = addresses.get(0).getLocality();
+
+                Log.e("TAG", "getCityName: "+cityName);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            // Can't get location.
+            // GPS or network is not enabled.
+            // Ask user to enable GPS/network in settings.
+            gps.showSettingsAlert();
+        }
+
 
     }
 

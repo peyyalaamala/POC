@@ -1,17 +1,23 @@
 package com.example.stopmindlessscrolling.views;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -22,6 +28,8 @@ import com.example.stopmindlessscrolling.utility.Utility;
 
 public class PermissionsActivity extends AppCompatActivity {
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 111;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +38,36 @@ public class PermissionsActivity extends AppCompatActivity {
 
 
     }
+    private void requestLocationPermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                LOCATION_PERMISSION_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        try{
+            if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(PermissionsActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            requestLocationPermission();
+
+                        }
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     /**
      * To show draw over other apps permission dialog
      */
@@ -38,10 +76,20 @@ public class PermissionsActivity extends AppCompatActivity {
                 Utility.getUsageStatsList(PermissionsActivity.this).isEmpty()) {
             homePermission();
         } else {
-            Intent intent=new Intent(PermissionsActivity.this, HomeActivity.class);
-            startActivity(intent);
+            if (checkLocationPermission()) {
+                Intent intent=new Intent(PermissionsActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }else {
+                requestLocationPermission();
+            }
+
 
         }
+    }
+
+    private boolean checkLocationPermission() {
+        // Permission is not granted
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
     }
 
     /**
